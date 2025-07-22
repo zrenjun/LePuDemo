@@ -1,5 +1,10 @@
 {
   "src": [
-    "pages/Index"
+    "pages/Index",
+    "pages/device/Er1Page",
+    "pages/EcgFileViewPage",
+    "pages/UsbFileCopyPage",
+    "pages/device/O2Page",
+    "pages/Spo2FileViewPage"
   ]
 }

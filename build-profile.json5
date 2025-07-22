@@ -1,12 +1,26 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/viatom_chs/.ohos/config/default_lepudemo_F_o1AwZJltyf6Vp6RlkUiZ2dfM0jDEaW9rXGg_TitoU=.cer",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001BABA0C4AF8590DDD8D8A240BB79CB99F6A379A0FF3CE92EAA536B3A6417323DBA4FD83D8900F9B2",
+          "profile": "/Users/viatom_chs/.ohos/config/default_lepudemo_F_o1AwZJltyf6Vp6RlkUiZ2dfM0jDEaW9rXGg_TitoU=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/viatom_chs/.ohos/config/default_lepudemo_F_o1AwZJltyf6Vp6RlkUiZ2dfM0jDEaW9rXGg_TitoU=.p12",
+          "storePassword": "0000001B7C327DE9DDA5837CE4745480E593F20FE971B7692F98AF52BEC1824921407B1DA8005B2D31DDC0"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",
         "signingConfig": "default",
-        "targetSdkVersion": "5.1.0(18)",
-        "compatibleSdkVersion": "5.1.0(18)",
+        "targetSdkVersion": "5.0.5(17)",
+        "compatibleSdkVersion": "5.0.5(17)",
         "runtimeOS": "HarmonyOS",
         "buildOption": {
           "strictMode": {
