@@ -2,7 +2,7 @@
   "modelVersion": "5.1.0",
   "description": "Please describe the basic information.",
   "dependencies": {
-    "@lepu/lepuhmble": "^1.0.0"
+    "@lepu/lepuhmble": "^1.0.1"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.21",
