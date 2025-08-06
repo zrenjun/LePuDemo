@@ -17,6 +17,7 @@ import BleGattCallback from '@lepu/lepuhmble/src/main/ets/callback/BleGattCallba
 import BleException from '@lepu/lepuhmble/src/main/ets/exception/BleException';
 import AdapterManager from '@lepu/lepuhmble/src/main/ets/bluetooth/AdapterManager';
 import BleScanCallback from '@lepu/lepuhmble/src/main/ets/callback/BleScanCallback';
+import BpDevice from '@lepu/lepuhmble/src/main/ets/device/bp/BpDevice';
 
 
 @Entry
@@ -172,15 +173,20 @@ struct Page {
     let str = device.getName();
     BleLog.i("onDetailClick deviceName:" + device.getName());
     let page = "";
-    if (str.toLowerCase().includes("er1".toLowerCase()) || str.toLowerCase().includes("er2".toLowerCase()) ||
-    str.toLowerCase().includes("duoek".toLowerCase())) {
+    if (str.toLowerCase().includes("er1".toLowerCase())
+      || str.toLowerCase().includes("er2".toLowerCase())
+      || str.toLowerCase().includes("hhm".toLowerCase())
+      || str.toLowerCase().includes("touch".toLowerCase())
+      || str.toLowerCase().includes("duoek".toLowerCase())
+    ) {
       page = 'pages/device/Er1Page';
     } else if (str.toLowerCase().includes("o2".toLowerCase())
       || str.toLowerCase().includes("oxy".toLowerCase())
       || str.toLowerCase().includes("sleep".toLowerCase())
       || str.toLowerCase().includes("bbsm".toLowerCase())
       || str.toLowerCase().includes("po4".toLowerCase())
-      || str.toLowerCase().includes("po6".toLowerCase())) {
+      || str.toLowerCase().includes("po6".toLowerCase())
+    ) {
       page = 'pages/device/O2Page';
     } else if (str.toLowerCase().includes("bp".toLowerCase())) {
       page = 'pages/device/BpPage';
@@ -346,15 +352,23 @@ struct Page {
         BleLog.e(_this.connectedDevices.join(";") + "  连接成功")
         // init device
         let str = bleDevice.getName();
-        if (str.toLowerCase().includes("er1")||str.toLowerCase().includes("er2") || str.toLowerCase().includes("duoek")) {
+        if (str.toLowerCase().includes("er1")
+          || str.toLowerCase().includes("er2")
+          || str.toLowerCase().includes("duoek")
+          || str.toLowerCase().includes("touch".toLowerCase())
+          || str.toLowerCase().includes("duoek".toLowerCase())
+        ) {
           Er1Device.getInstance().init(bleDevice);
         } else if (str.toLowerCase().includes("o2".toLowerCase())
           || str.toLowerCase().includes("oxy".toLowerCase())
           || str.toLowerCase().includes("sleep".toLowerCase())
           || str.toLowerCase().includes("bbsm".toLowerCase())
           || str.toLowerCase().includes("po4".toLowerCase())
-          || str.toLowerCase().includes("po6".toLowerCase())) {
+          || str.toLowerCase().includes("po6".toLowerCase())
+        ) {
           O2Device.getInstance().init(bleDevice);
+        } else if (str.toLowerCase().includes("bp")) {
+          BpDevice.getInstance().init(bleDevice);
         }
       }
 
@@ -372,7 +386,7 @@ struct Page {
           prompt.showToast({ message: _this.toast_active_disconnected, duration: 300 });
         } else {
           prompt.showToast({ message: _this.toast_disconnected, duration: 300 });
-          _this.connect(_device);
+          // _this.connect(_device);
         }
       }
     }
@@ -382,14 +396,16 @@ struct Page {
 
   //组件即将显示时调用
   aboutToAppear() {
-    BleManager.getInstance().init();
-    BleManager.getInstance()
-      .enableLog(true)
-      .setReConnectCount(3, 5000)
-      .setConnectOverTime(20000);
-
-    this.loadStrings();
-    AdapterManager.openBluetooth();
+    // 使用异步方式初始化蓝牙，避免阻塞主线程
+    setTimeout(() => {
+      BleManager.getInstance().init();
+      BleManager.getInstance()
+        .enableLog(true)
+        .setReConnectCount(1, 5000)
+        .setConnectOverTime(20000)
+      this.loadStrings();
+      AdapterManager.openBluetooth();
+    }, 0);
   }
 
   aboutToDisappear() {

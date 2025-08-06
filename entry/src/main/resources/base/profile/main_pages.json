@@ -2,9 +2,11 @@
   "src": [
     "pages/Index",
     "pages/device/Er1Page",
+    "pages/device/O2Page",
+    "pages/device/BpPage",
     "pages/EcgFileViewPage",
     "pages/UsbFileCopyPage",
-    "pages/device/O2Page",
-    "pages/Spo2FileViewPage"
+    "pages/Spo2FileViewPage",
+    "pages/BpFileViewPage"
   ]
 }

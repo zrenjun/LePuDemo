@@ -6,7 +6,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "@lepu/lepuhmble": "1.0.3",
+    "@lepu/lepuhmble": "1.0.5",
     "@ohos-port/xlog": "^1.2.0"
   }
 }

@@ -24,7 +24,7 @@ struct UsbFileCopyPage {
   // 执行拷贝操作
   startCopy(uri: string) {
     const fileName = uri.substring(uri.lastIndexOf('/') + 1);
-    const filePath = FileUtils.getFilesDirPath(`${getContext().filesDir}/er1`, `${fileName}.dat`);
+    const filePath = FileUtils.getFilesDirPath(`${getContext().filesDir}/er1`, `${fileName}`);
     FileUtils.readStream(uri)
       .then((data) => {
         FileUtils.writeStream(filePath, data, 0)

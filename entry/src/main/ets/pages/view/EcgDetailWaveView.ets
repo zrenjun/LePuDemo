@@ -1,7 +1,8 @@
-import { PxUtils, TimeUtils } from '../util/Utils';
+import { PxUtils } from '../util/Utils';
+import TimeUtils from "@lepu/lepuhmble/src/main/ets/utils/TimeUtils";
 
 @Component
-export struct Er3DetailWaveView {
+export struct EcgDetailWaveView {
   // 数据传递
   @Prop public waveData: number[] = [];
   @Prop public timeTemp: number = 0;
@@ -79,7 +80,7 @@ export struct Er3DetailWaveView {
       const y = baselineY - value * this.waveScale * this.gridSize * 10;
       if (index === 0) {
         this.ctx.moveTo(0, baselineY);
-      }else {
+      } else {
         // 动态平滑控制点算法
         const distance = Math.hypot(x - prevX, y - prevY);
         const tension = Math.min(0.5, 30 / distance);
@@ -99,8 +100,8 @@ export struct Er3DetailWaveView {
     // 绘制时间文本
     this.ctx.font = '24px HarmonyOS Sans'; // 设置字体大小和字体族
     const timeStr = TimeUtils.convertToDateStr(this.timeTemp);
-    ctx.fillText(timeStr, Er3DetailWaveView.TEXT_PADDING, this.totalHeight - Er3DetailWaveView.LABEL_OFFSET);
-    ctx.fillText(`${this.speed} mm/s`, ctx.width - 60, this.totalHeight - Er3DetailWaveView.LABEL_OFFSET);
+    ctx.fillText(timeStr, EcgDetailWaveView.TEXT_PADDING, this.totalHeight - EcgDetailWaveView.LABEL_OFFSET);
+    ctx.fillText(`${this.speed} mm/s`, ctx.width - 60, this.totalHeight - EcgDetailWaveView.LABEL_OFFSET);
   }
 
   aboutToAppear(): void {
@@ -108,7 +109,6 @@ export struct Er3DetailWaveView {
     this.totalHeight = parseInt((this.gridSize * this.lineHeight).toFixed(0));
     this.nv = PxUtils.getXNv(PxUtils.getLineSize(this.samplingRate, this.speed)) + 0.02;
   }
-
 
   build() {
     Column() {

@@ -3,7 +3,7 @@ import O2Device from '@lepu/lepuhmble/src/main/ets/device/o2/O2Device';
 import { emitter } from '@kit.BasicServicesKit';
 import BleLog from '@lepu/lepuhmble/src/main/ets/utils/BleLog';
 import FileUtils from '@lepu/lepuhmble/src/main/ets/utils/FileUtils';
-import FileDownloadState from '@lepu/lepuhmble/src/main/ets/device/FileDownloadState';
+import FileTransmit from '@lepu/lepuhmble/src/main/ets/device/FileTransmit';
 import O2Info from '@lepu/lepuhmble/src/main/ets/device/o2/O2Info';
 import O2Config from '@lepu/lepuhmble/src/main/ets/device/o2/O2Config';
 import O2RtParam from '@lepu/lepuhmble/src/main/ets/device/o2/O2RtParam';
@@ -16,12 +16,12 @@ struct O2Page {
   private device: BleDevice | undefined = undefined;
   @State flag: boolean = true;
   @State files: string[] = [];
-  @State fileStatus: FileDownloadState[] = [];
+  @State fileTransmit: FileTransmit[] = [];
   @State deviceInfo: O2Info | undefined = undefined;
   @State currentSpo2: O2RtParam | undefined = undefined;
 
   private getProgress(file: string): number {
-    const status = this.fileStatus.find((item) => item.fileName === file);
+    const status = this.fileTransmit.find((item) => item.fileName === file);
     if (status == undefined || status.cancel) {
       return 0;
     }
@@ -154,7 +154,7 @@ struct O2Page {
     router.pushUrl({
       url: 'pages/Spo2FileViewPage',
       params: {
-        path: FileUtils.getFilesDirPath(`${getContext().filesDir}/o2`, `${fileName}.dat`),
+        path: FileUtils.getFilesDirPath(`${getContext().filesDir}/o2`, `${fileName}`),
         deviceName: this.device?.mDeviceName,
       }
     });
@@ -179,15 +179,15 @@ struct O2Page {
 
 
     emitter.on(O2Device.EVENT_FILE_PROGRESS, (eventData: emitter.EventData) => {
-      const item: FileDownloadState = eventData.data?.fileStatus;
-      const index = this.fileStatus.findIndex((file) => file.fileName === item.fileName);
+      const item: FileTransmit = eventData.data?.fileStatus;
+      const index = this.fileTransmit.findIndex((file) => file.fileName === item.fileName);
       if (index !== -1) {
         // 创建新数组并替换旧对象
-        const newFileStatus = this.fileStatus;
+        const newFileStatus = this.fileTransmit;
         newFileStatus[index] = item;
-        this.fileStatus = newFileStatus;
+        this.fileTransmit = newFileStatus;
       } else {
-        this.fileStatus.push(item);
+        this.fileTransmit.push(item);
       }
     });
 

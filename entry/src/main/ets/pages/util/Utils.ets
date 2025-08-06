@@ -111,26 +111,3 @@ export class PxUtils {
   }
 }
 
-export class TimeUtils {
-  public static  convertToTimestamp(dateStr: string): number {
-    const year = parseInt(dateStr.substring(0, 4));
-    const month = parseInt(dateStr.substring(4, 6)) - 1;
-    const day = parseInt(dateStr.substring(6, 8));
-    const hours = parseInt(dateStr.substring(8, 10));
-    const minutes = parseInt(dateStr.substring(10, 12));
-    const seconds = parseInt(dateStr.substring(12, 14));
-    const date = new Date(year, month, day, hours, minutes, seconds);
-    return date.getTime();
-  }
-
-  public static convertToDateStr(timestamp: number): string {
-    const date = new Date(timestamp);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
-  }
-}

@@ -3,8 +3,9 @@ import FileUtils from '@lepu/lepuhmble/src/main/ets/utils/FileUtils';
 import Er1EcgFile from '@lepu/lepuhmble/src/main/ets/device/er1/Er1EcgFile';
 import BleLog from '@lepu/lepuhmble/src/main/ets/utils/BleLog';
 import EcgFilter from '@lepu/lepuhmble/src/main/ets/utils/EcgFilter';
-import { PxUtils, TimeUtils } from './util/Utils';
-import { Er3DetailWaveView } from './view/EcgDetailWaveView';
+import { PxUtils } from './util/Utils';
+import TimeUtils from "@lepu/lepuhmble/src/main/ets/utils/TimeUtils";
+import { EcgDetailWaveView } from './view/EcgDetailWaveView';
 import ProgressDialog from './view/ProgressDialog';
 
 
@@ -33,7 +34,7 @@ struct EcgFileViewPage {
       List() {
         ForEach(this.ecgDataList, (ecgData: EcgData) => {
           ListItem() {
-            Er3DetailWaveView({
+            EcgDetailWaveView({
               timeTemp: ecgData.time,
               waveData: ecgData.data,
               samplingRate: this.sampling,
@@ -62,7 +63,7 @@ struct EcgFileViewPage {
     const endIndex = Math.min(endPage * this.dataLine, this.rawData.length);
     const newData: EcgData[] = [];
     for (let i = startIndex; i < endIndex; i += this.dataLine) {
-      newData.push(new EcgData(this.calculateTime(i), this.rawData.subarray(i, i + this.dataLine)));
+      newData.push(new EcgData(this.calculateTime(i), this.rawData.subarray(i, i + this.dataLine), 0.002467));
     }
     this.ecgDataList = this.ecgDataList.concat(newData);
     this.currentPage = endPage;
@@ -95,7 +96,7 @@ struct EcgFileViewPage {
     }
     EcgFilter.resetFilter();
     FileUtils.readStream(path).then((data) => {
-      this.rawData = new Er1EcgFile(data).shortData;  // todo 区分设备
+      this.rawData = new Er1EcgFile(data).shortData; // todo 区分设备
       this.totalPages =
         Math.ceil(this.rawData.length / (PxUtils.getLineSize(this.sampling, this.speed) * this.PAGE_SIZE));
       this.loadMoreData(); // 初始加载第一页
@@ -110,11 +111,11 @@ export class EcgData {
   time: number = 0; //时间戳
   data: number[] = []; //数据
 
-  constructor(time: number, data: Int16Array) {
+  constructor(time: number, data: Int16Array, gain: number) {
     this.time = time;
     const filter = EcgFilter.shortFilter(Array.from(data));
     filter.forEach((value) => {
-      this.data.push(value * 0.002467); // todo 区分设备
+      this.data.push(value * gain);
     })
   }
 }

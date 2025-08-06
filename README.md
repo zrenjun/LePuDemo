@@ -181,3 +181,8 @@ ohpm install @lepu/lepuhmble
 ```
    使用O2Device可以获取指令及发送命令，参数设置参考设置时间
 ```
+3. BP系列（包含BP2、BP3、BP2A等设备）
+
+```
+   使用BpDevice可以获取指令及发送命令，参数设置暂时只有心电音
+```
